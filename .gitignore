@@ -1,0 +1,27 @@
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+release.properties
+
+# IntelliJ / IDEA
+.idea/
+*.iml
+out/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Others
+hs_err_pid*
+
+# Jqwik
+.jqwik-database

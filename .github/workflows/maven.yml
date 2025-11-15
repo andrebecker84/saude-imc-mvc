@@ -1,0 +1,94 @@
+name: Maven CI
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # Necessário para criar/atualizar badges
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: 'maven'
+
+      - name: Build with Maven
+        run: mvn -B clean compile -DskipTests=true
+
+      - name: Extract test results
+        id: test-results
+        run: |
+          # Executar testes e capturar resultado
+          mvn -B test > test-output.txt 2>&1 || true
+
+          # Extrair número de testes executados (usa tail -1 para pegar o total final, não o primeiro grupo)
+          TESTS_RUN=$(grep -oP 'Tests run: \K\d+' test-output.txt | tail -1 || echo "0")
+          FAILURES=$(grep -oP 'Failures: \K\d+' test-output.txt | tail -1 || echo "0")
+          ERRORS=$(grep -oP 'Errors: \K\d+' test-output.txt | tail -1 || echo "0")
+
+          echo "tests_run=$TESTS_RUN" >> $GITHUB_OUTPUT
+          echo "failures=$FAILURES" >> $GITHUB_OUTPUT
+          echo "errors=$ERRORS" >> $GITHUB_OUTPUT
+
+          # Determinar status e cor
+          if [ "$FAILURES" -eq "0" ] && [ "$ERRORS" -eq "0" ]; then
+            echo "status=passing" >> $GITHUB_OUTPUT
+            echo "color=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failing" >> $GITHUB_OUTPUT
+            echo "color=critical" >> $GITHUB_OUTPUT
+          fi
+
+          echo "Tests: $TESTS_RUN | Failures: $FAILURES | Errors: $ERRORS"
+
+      - name: Create test badge
+        run: |
+          mkdir -p .github/badges
+
+          # Gerar badge usando shields.io
+          TESTS="${{ steps.test-results.outputs.tests_run }}"
+          STATUS="${{ steps.test-results.outputs.status }}"
+          COLOR="${{ steps.test-results.outputs.color }}"
+
+          curl -o .github/badges/tests.svg \
+            "https://img.shields.io/badge/Tests-${TESTS}%20${STATUS}-${COLOR}?style=flat"
+
+      - name: Generate JaCoCo report
+        run: mvn -q jacoco:report
+
+      # Gera badge de cobertura automaticamente (SEM conta externa)
+      - name: Generate JaCoCo Badge
+        id: jacoco
+        uses: cicirello/jacoco-badge-generator@v2
+        with:
+          jacoco-csv-file: target/site/jacoco/jacoco.csv
+          badges-directory: .github/badges
+          generate-branches-badge: true
+          generate-summary: true
+
+      # Commit das badges no repositório (apenas no push para main/master)
+      - name: Commit and push badges
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master')
+        run: |
+          if [[ `git status --porcelain .github/badges` ]]; then
+            git config --global user.name 'github-actions[bot]'
+            git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+            git add .github/badges
+            git commit -m "docs: atualizar badges de testes e cobertura [skip ci]"
+            git push
+          fi
+
+      # Log da cobertura no console
+      - name: Log coverage percentage
+        run: |
+          echo "Coverage = ${{ steps.jacoco.outputs.coverage }}"
+          echo "Branches = ${{ steps.jacoco.outputs.branches }}"
