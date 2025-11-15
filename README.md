@@ -1,7 +1,7 @@
 # Sistema Cálculo IMC - Testes Automatizados
 
-> **Disciplina:** Engenharia de Testes de Software
-> **Autor:** André Luis Becker
+> **Disciplina:** Engenharia de Testes de Software  
+> **Autor:** André Luis Becker  
 > **Repositório Base:** [Wolfterro/Projetos-em-Java](https://github.com/Wolfterro/Projetos-em-Java/tree/master/CalculoIMC)
 
 [![Projeto](https://img.shields.io/badge/Projeto-Saude_IMC_MVC-black?style=plastic&logo=htmx)]()
@@ -234,7 +234,7 @@ Total: 69 testes ✅ (cobrindo todas as 8 categorias de IMC)
 ```
 
 ### 1. Testes Unitários (JUnit 5 + AssertJ)
-✅ Partições equivalentes para todas as 8 categorias
+✅ Partições equivalentes para todas as 8 categorias  
 ✅ Análise de limites nas 7 fronteiras de categorização:
    - 15.99→16.00 (MAGREZA_GRAVE → MAGREZA_MODERADA)
    - 16.99→17.00 (MAGREZA_MODERADA → MAGREZA_LEVE)
@@ -242,25 +242,25 @@ Total: 69 testes ✅ (cobrindo todas as 8 categorias de IMC)
    - 24.99→25.00 (SAUDAVEL → SOBREPESO)
    - 29.99→30.00 (SOBREPESO → OBESIDADE_GRAU_I)
    - 34.99→35.00 (OBESIDADE_GRAU_I → OBESIDADE_GRAU_II)
-   - 39.99→40.00 (OBESIDADE_GRAU_II → OBESIDADE_GRAU_III)
-✅ Validação de entradas inválidas com mensagens específicas
-✅ Testes parametrizados com `@CsvSource` e `@ValueSource`
+   - 39.99→40.00 (OBESIDADE_GRAU_II → OBESIDADE_GRAU_III)  
+✅ Validação de entradas inválidas com mensagens específicas  
+✅ Testes parametrizados com `@CsvSource` e `@ValueSource`  
 ✅ Organização com `@Nested` classes para melhor legibilidade
 
 ### 2. Testes com Mocks (Mockito)
-✅ Isolamento de `ArmazenamentoResultado` com `@Mock`
-✅ Verificação de chamadas com `verify()` e `ArgumentCaptor`
-✅ Garantia de não persistência em casos de erro com `never()`
-✅ Uso de anotações `@ExtendWith(MockitoExtension.class)`
+✅ Isolamento de `ArmazenamentoResultado` com `@Mock`  
+✅ Verificação de chamadas com `verify()` e `ArgumentCaptor`  
+✅ Garantia de não persistência em casos de erro com `never()`  
+✅ Uso de anotações `@ExtendWith(MockitoExtension.class)`  
 
 ### 3. Testes Baseados em Propriedades (Jqwik)
-✅ IMC sempre não-negativo para entradas válidas
-✅ Monotonicidade: IMC aumenta com peso (altura fixa)
-✅ Antimonotonicidade: IMC diminui com altura (peso fixo)
-✅ Categorização consistente com limites definidos
-✅ Arredondamento preserva 2 casas decimais
-✅ Geradores customizados com edge cases
-✅ 1000 tries por propriedade
+✅ IMC sempre não-negativo para entradas válidas  
+✅ Monotonicidade: IMC aumenta com peso (altura fixa)  
+✅ Antimonotonicidade: IMC diminui com altura (peso fixo)  
+✅ Categorização consistente com limites definidos  
+✅ Arredondamento preserva 2 casas decimais  
+✅ Geradores customizados com edge cases  
+✅ 1000 tries por propriedade  
 
 👉 **Análise detalhada:** [DOCUMENTACAO_TP1.md](doc/DOCUMENTACAO_TP1.md)
 
