@@ -79,28 +79,35 @@ Garantir correção e robustez no cálculo de IMC através de:
 
 ---
 
-## 🏗️ Arquitetura
+## 🏗️ Arquitetura IMC
 
 **MVC + Ports & Adapters + SOLID + Clean Code**
 
-```
-Controller (ControladorIMC)
-    ↓ Validação de entrada e tratamento de erros
-Service (ServicoIMC)
-    ↓ Orquestração da lógica de negócio
-Util (CalculadoraIMC, ValidadorEntrada, Arredondador)
-    ↓ Cálculo, validação e arredondamento (SRP/DRY)
-Port (ArmazenamentoResultado) ← Adapter (ArmazenamentoLog)
-    ↓ Persistência desacoplada (DIP/OCP)
-```
+✅ **Controller (ControladorIMC)**
+- Responsável pela **validação da entrada** e **tratamento de erros**
+- Encaminha requisições ao serviço
+
+✅ **Service (ServicoIMC)**
+- **Orquestra a lógica de negócio**
+- Interage com utilitários e portas
+
+✅ **Util**
+- **`CalculadoraIMC`** → Cálculo do índice
+- **`ValidadorEntrada`** → Verificação de input
+- **`Arredondador`** → Ajuste de precisão
+- Aplicação de princípios **SRP** e **DRY**
+
+✅ **Port (ArmazenamentoResultado)** ← **Adapter (ArmazenamentoLog)**
+- Realiza a **persistência desacoplada** dos resultados
+- Aplicação de **DIP** e **OCP** para flexibilidade
 
 **Princípios aplicados:**
-- **SRP (Single Responsibility Principle):** Cada classe tem uma única responsabilidade bem definida
-- **OCP (Open/Closed Principle):** Aberto para extensão (novos adapters) fechado para modificação
-- **LSP (Liskov Substitution Principle):** Substituibilidade de implementações
-- **ISP (Interface Segregation Principle):** Interfaces coesas e focadas
-- **DIP (Dependency Inversion Principle):** Dependência de abstrações (ArmazenamentoResultado)
-- **DRY (Don't Repeat Yourself):** Lógica centralizada sem duplicação
+- **`SRP` (`S`ingle Responsibility Principle):** Cada classe tem uma única responsabilidade bem definida
+- **`OCP` (`O`pen/Closed Principle):** Aberto para extensão (novos adapters) fechado para modificação
+- **`LSP` (`L`iskov Substitution Principle):** Substituibilidade de implementações
+- **`ISP` (`I`nterface Segregation Principle):** Interfaces coesas e focadas
+- **`DIP` (`D`ependency Inversion Principle):** Dependência de abstrações (ArmazenamentoResultado)
+- **`DRY` (Don't Repeat Yourself):** Lógica centralizada sem duplicação
 - **Clean Code:** Código legível, coeso, testável e com JavaDoc completo
 
 ---
@@ -109,38 +116,38 @@ Port (ArmazenamentoResultado) ← Adapter (ArmazenamentoLog)
 
 ```
 saude-imc-mvc/
-├─ .github/workflows/maven.yml      # CI/CD com GitHub Actions
+├─ .github/workflows/maven.yml                  # CI/CD com GitHub Actions
 ├─ src/
 │  ├─ main/java/com/saude/imc/
-│  │  ├─ AplicacaoIMC.java          # Classe principal Spring Boot
+│  │  ├─ AplicacaoIMC.java                      # Classe principal Spring Boot
 │  │  ├─ controller/
-│  │  │  └─ ControladorIMC.java     # REST Controller (C do MVC)
+│  │  │  └─ ControladorIMC.java                 # REST Controller (C do MVC)
 │  │  ├─ service/
-│  │  │  ├─ ServicoIMC.java         # Service/Model (M do MVC)
+│  │  │  ├─ ServicoIMC.java                     # Service/Model (M do MVC)
 │  │  │  ├─ ports/
-│  │  │  │  └─ ArmazenamentoResultado.java  # Port (DIP)
+│  │  │  │  └─ ArmazenamentoResultado.java      # Port (DIP)
 │  │  │  └─ adapters/
-│  │  │     └─ ArmazenamentoLog.java        # Adapter (implementação)
+│  │  │     └─ ArmazenamentoLog.java            # Adapter (implementação)
 │  │  ├─ domain/
-│  │  │  └─ CategoriaIMC.java       # Enum de categorias
+│  │  │  └─ CategoriaIMC.java                   # Enum de categorias
 │  │  ├─ dto/
-│  │  │  └─ RespostaIMC.java        # DTO de resposta
+│  │  │  └─ RespostaIMC.java                    # DTO de resposta
 │  │  └─ util/
-│  │     ├─ CalculadoraIMC.java     # Lógica de cálculo (SRP)
-│  │     ├─ ValidadorEntrada.java   # Validações (SRP)
-│  │     └─ Arredondador.java       # Arredondamento (SRP/DRY)
+│  │     ├─ CalculadoraIMC.java                 # Lógica de cálculo (SRP)
+│  │     ├─ ValidadorEntrada.java               # Validações (SRP)
+│  │     └─ Arredondador.java                   # Arredondamento (SRP/DRY)
 │  └─ test/java/com/saude/imc/
 │     ├─ util/
-│     │  ├─ CalculadoraIMCTest.java        # 51 testes unitários
-│     │  └─ PropriedadesIMCTest.java       # 7 testes de propriedades
+│     │  ├─ CalculadoraIMCTest.java             # 51 testes unitários
+│     │  └─ PropriedadesIMCTest.java            # 7 testes de propriedades
 │     └─ service/
-│        └─ ServicoIMCTest.java             # 11 testes com mocks
+│        └─ ServicoIMCTest.java                 # 11 testes com mocks
 ├─ doc/
-│  └─ DOCUMENTACAO_TP1.md            # Documento completo de entrega
+│  └─ DOCUMENTACAO_TP1.md                       # Documento completo de entrega
 ├─ img/
-│  └─ JaCoCo_2025-11-14_19h37m.png   # Evidência de cobertura
-├─ README.md                          # Este arquivo
-└─ pom.xml                            # Configuração Maven
+│  └─ JaCoCo_2025-11-14_19h37m.png              # Evidência de cobertura
+├─ README.md                                    # Este arquivo
+└─ pom.xml                                      # Configuração Maven
 ```
 
 ---
@@ -236,13 +243,17 @@ Total: 69 testes ✅ (cobrindo todas as 8 categorias de IMC)
 ### 1. Testes Unitários (JUnit 5 + AssertJ)
 ✅ Partições equivalentes para todas as 8 categorias  
 ✅ Análise de limites nas 7 fronteiras de categorização:
-   - 15.99→16.00 (MAGREZA_GRAVE → MAGREZA_MODERADA)
-   - 16.99→17.00 (MAGREZA_MODERADA → MAGREZA_LEVE)
-   - 18.49→18.50 (MAGREZA_LEVE → SAUDAVEL)
-   - 24.99→25.00 (SAUDAVEL → SOBREPESO)
-   - 29.99→30.00 (SOBREPESO → OBESIDADE_GRAU_I)
-   - 34.99→35.00 (OBESIDADE_GRAU_I → OBESIDADE_GRAU_II)
-   - 39.99→40.00 (OBESIDADE_GRAU_II → OBESIDADE_GRAU_III)  
+
+| Limite        | Transição de Categoria                    |
+|---------------|-------------------------------------------|
+| 15.99 → 16.00 | MAGREZA_GRAVE → MAGREZA_MODERADA          |
+| 16.99 → 17.00 | MAGREZA_MODERADA → MAGREZA_LEVE           |
+| 18.49 → 18.50 | MAGREZA_LEVE → SAUDÁVEL                   |
+| 24.99 → 25.00 | SAUDÁVEL → SOBREPESO                      |
+| 29.99 → 30.00 | SOBREPESO → OBESIDADE_GRAU_I              |
+| 34.99 → 35.00 | OBESIDADE_GRAU_I → OBESIDADE_GRAU_II      |
+| 39.99 → 40.00 | OBESIDADE_GRAU_II → OBESIDADE_GRAU_III    |
+
 ✅ Validação de entradas inválidas com mensagens específicas  
 ✅ Testes parametrizados com `@CsvSource` e `@ValueSource`  
 ✅ Organização com `@Nested` classes para melhor legibilidade
@@ -288,9 +299,9 @@ Workflow GitHub Actions em `.github/workflows/maven.yml`:
 - ✅ **Tratamento de exceções** centralizado com `@ExceptionHandler`
 
 ### Métricas
-- **Total de classes:** 8 classes de produção
-- **Total de testes:** 69 testes automatizados
-- **Cobertura alvo:** ≥ 80% em classes críticas
+- **Total de classes:** `8 classes` de `produção`
+- **Total de testes:** `69 testes` automatizados
+- **Cobertura alvo:** `≥ 80%` em classes críticas
 - **Linhas de código:** ~500 LOC (produção) + ~900 LOC (testes)
 
 ---
@@ -303,37 +314,37 @@ Workflow GitHub Actions em `.github/workflows/maven.yml`:
 
 ### Por que 51%? Entendendo os Números
 
-A cobertura geral de **51%** é resultado da composição do projeto:
+A cobertura geral de `51%` é resultado da composição do projeto:
 
 **📊 Detalhamento por Tipo de Classe:**
 
-| Tipo de Classe | % do Projeto | Cobertura | Justificativa |
-|----------------|--------------|-----------|---------------|
-| **Classes de Negócio** | 63% | **80-100%** ✅ | Meta ≥80% ATINGIDA |
-| **Classes de Infraestrutura** | 37% | 0% | Não requerem testes unitários |
+| Tipo de Classe                | % do Projeto  | Cobertura   | Justificativa                 |
+|-------------------------------|---------------|-------------|-------------------------------|
+| **Classes de Negócio**        | 63%           | `80-100%` ✅ | Meta `≥80%` ATINGIDA          |
+| **Classes de Infraestrutura** | 37%           | 0%          | Não requerem testes unitários |
 
 ### ✅ Classes Críticas (Lógica de Negócio) - Meta ≥ 80%
 
-| Pacote/Classe | Cobertura | Status | Análise |
-|---------------|-----------|--------|---------|
-| **com.saude.imc.util** | **80%** | ✅ EXCELENTE | Lógica de cálculo, validação e arredondamento |
-| └─ `CalculadoraIMC` | ~80% | ✅ | 51 testes unitários + 7 testes de propriedades |
-| └─ `ValidadorEntrada` | ~80% | ✅ | Validações críticas de peso e altura |
-| └─ `Arredondador` | ~80% | ✅ | Arredondamento HALF_UP testado |
-| **com.saude.imc.service** | **100%** | ✅ PERFEITO | Orquestração da lógica de negócio |
-| └─ `ServicoIMC` | 100% | ✅ | 11 testes com mocks e ArgumentCaptor |
-| **com.saude.imc.domain** | **92%** | ✅ PERFEITO | Modelo de domínio |
-| └─ `CategoriaIMC` | 92% | ✅ | Enum completamente coberto |
+| Pacote/Classe             | Cobertura | Status      | Análise                                        |
+|---------------------------|-----------|-------------|------------------------------------------------|
+| **com.saude.imc.util**    | `80%`     | ✅ EXCELENTE | Lógica de cálculo, validação e arredondamento  |
+| └─ `CalculadoraIMC`       | ~80%      | ✅           | 51 testes unitários + 7 testes de propriedades |
+| └─ `ValidadorEntrada`     | ~80%      | ✅           | Validações críticas de peso e altura           |
+| └─ `Arredondador`         | ~80%      | ✅           | Arredondamento _HALF_UP_ testado               |
+| **com.saude.imc.service** | `100%`    | ✅ PERFEITO  | Orquestração da lógica de negócio              |
+| └─ `ServicoIMC`           | 100%      | ✅           | 11 testes com mocks e `ArgumentCaptor`         |
+| **com.saude.imc.domain**  | `92%`     | ✅ PERFEITO  | Modelo de domínio                              |
+| └─ `CategoriaIMC`         | 92%       | ✅           | Enum completamente coberto                     |
 
-**Conclusão:** ✅ **Meta de ≥80% ATINGIDA** nas classes que contêm lógica de negócio (80-100%).
+**Conclusão:** ✅ **Meta de `≥80%` ATINGIDA** nas classes que contêm lógica de negócio (80-100%).
 
 ### 🟡 Classes de Infraestrutura (0% - Justificadas)
 
-| Classe | Cobertura | Justificativa |
-|--------|-----------|---------------|
-| **AplicacaoIMC** | 0% | Classe `main` do Spring Boot - apenas inicializa contexto |
-| **ControladorIMC** | 0% | Camada HTTP - requer testes de integração (fora do escopo TP1) |
-| **ArmazenamentoLog** | 0% | Sempre mockado nos testes - apenas registra logs |
+| Classe               | Cobertura  | Justificativa                                                  |
+|----------------------|------------|----------------------------------------------------------------|
+| **AplicacaoIMC**     | 0%         | Classe `main` do Spring Boot - apenas inicializa contexto      |
+| **ControladorIMC**   | 0%         | Camada HTTP - requer testes de integração (fora do escopo TP1) |
+| **ArmazenamentoLog** | 0%         | Sempre mockado nos testes - apenas registra logs               |
 
 **Observações:**
 - O foco do TP1 é em **testes unitários** (JUnit, Jqwik, Mockito)
@@ -342,7 +353,7 @@ A cobertura geral de **51%** é resultado da composição do projeto:
 
 ### 📈 Sugestões para Aumentar Cobertura (Opcionais)
 
-Se desejar aumentar a cobertura geral de **51% para >80%**, considere adicionar:
+Se desejar aumentar a cobertura geral de **`51%` para `>80%`**, considere adicionar:
 
 #### 1. Testes de Integração do Controller (Recomendado)
 
@@ -468,7 +479,7 @@ class AplicacaoIMCTest {
 
 **Estimativa:** 2 testes | Aumento de cobertura: ~2%
 
-#### 4. Casos de Teste Adicionais para Aumentar Util de 83% para 95%+
+#### 4. Casos de Teste Adicionais para Aumentar Util de `83%` para `95%+`
 
 **Impacto:** +5% de cobertura | **Dificuldade:** Baixa
 
@@ -515,22 +526,22 @@ void simetriaNoCálculo(@ForAll("pesosValidos") double peso,
 
 ### 📊 Roadmap de Cobertura
 
-| Fase | Ação | Cobertura Alvo | Esforço |
-|------|------|----------------|---------|
-| **Atual (TP1)** | 69 testes (unitários + propriedades + mocks) | **51%** ✅ | - |
-| **Fase 1** | + Testes Controller (6 testes) | **67%** | 2-3h |
-| **Fase 2** | + Testes ArmazenamentoLog (3 testes) | **71%** | 1h |
-| **Fase 3** | + Casos borda util (7 testes) | **76%** | 1h |
-| **Fase 4** | + Teste AplicacaoIMC (2 testes) | **78%** | 30min |
+| Fase            | Ação                                         | Cobertura Alvo |
+|-----------------|----------------------------------------------|----------------|
+| **Atual (TP1)** | 69 testes (unitários + propriedades + mocks) | `51%` ✅        |
+| **Fase 1**      | + Testes Controller (6 testes)               | `67%`          |
+| **Fase 2**      | + Testes ArmazenamentoLog (3 testes)         | `71%`          |
+| **Fase 3**      | + Casos borda util (7 testes)                | `76%`          |
+| **Fase 4**      | + Teste AplicacaoIMC (2 testes)              | `78%`          |
 
-**Total:** 18 testes adicionais | Cobertura final: **78%** | Esforço: 4-5h
+**Total:** 18 testes adicionais | Cobertura final: **78%**
 
 ### 🎯 Conclusão sobre Cobertura
 
 **Para o TP1 (Testes Unitários):**
-- ✅ Meta de ≥80% **ATINGIDA** nas classes críticas de negócio
-- ✅ 69 testes automatizados, 0 failures
-- ✅ Cobertura de 51% **ADEQUADA** considerando foco em testes unitários
+- ✅ `Meta de ≥80%` **ATINGIDA** nas classes críticas de negócio
+- ✅ `69 testes` automatizados, `0 failures`
+- ✅ `Cobertura de 51%` **ADEQUADA** considerando foco em testes unitários
 
 **Para evoluções futuras:**
 - 🔄 Adicionar testes de integração do Controller (TP futuro)

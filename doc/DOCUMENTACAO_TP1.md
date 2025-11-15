@@ -81,7 +81,7 @@ IMC = peso(kg) / altura(m)²
 
 ### 2.2 Arredondamento
 - **Precisão:** 2 casas decimais
-- **Modo:** `HALF_UP` (arredonda para cima quando >= 0.5)
+- **Modo:** `HALF_UP` (arredonda para cima quando `>= 0.5`)
 - **Implementação:** `BigDecimal.setScale(2, RoundingMode.HALF_UP)`
 
 **Exemplos:**
@@ -93,41 +93,44 @@ IMC = peso(kg) / altura(m)²
 
 O programa implementa uma classificação detalhada em 8 categorias:
 
-| Faixa de IMC      | Categoria           | Descrição                           |
-|-------------------|---------------------|-------------------------------------|
-| IMC < 16.0        | MAGREZA_GRAVE       | Magreza grave                       |
-| 16.0 ≤ IMC < 17.0 | MAGREZA_MODERADA    | Magreza moderada                    |
-| 17.0 ≤ IMC < 18.5 | MAGREZA_LEVE        | Magreza leve                        |
-| 18.5 ≤ IMC < 25.0 | SAUDAVEL            | Peso saudável                       |
-| 25.0 ≤ IMC < 30.0 | SOBREPESO           | Sobrepeso                           |
-| 30.0 ≤ IMC < 35.0 | OBESIDADE_GRAU_I    | Obesidade Grau I                    |
-| 35.0 ≤ IMC < 40.0 | OBESIDADE_GRAU_II   | Obesidade Grau II                   |
-| IMC ≥ 40.0        | OBESIDADE_GRAU_III  | Obesidade Grau III                  |
+| Faixa de IMC        | Categoria           | Descrição                           |
+|---------------------|---------------------|-------------------------------------|
+| `IMC < 16.0`        | MAGREZA_GRAVE       | Magreza grave                       |
+| `16.0 ≤ IMC < 17.0` | MAGREZA_MODERADA    | Magreza moderada                    |
+| `17.0 ≤ IMC < 18.5` | MAGREZA_LEVE        | Magreza leve                        |
+| `18.5 ≤ IMC < 25.0` | SAUDAVEL            | Peso saudável                       |
+| `25.0 ≤ IMC < 30.0` | SOBREPESO           | Sobrepeso                           |
+| `30.0 ≤ IMC < 35.0` | OBESIDADE_GRAU_I    | Obesidade Grau I                    |
+| `35.0 ≤ IMC < 40.0` | OBESIDADE_GRAU_II   | Obesidade Grau II                   |
+| `IMC ≥ 40.0`        | OBESIDADE_GRAU_III  | Obesidade Grau III                  |
 
 ### 3.1 Limites Críticos (Fronteiras) - 7 fronteiras testadas
 
-- **15.99 → MAGREZA_GRAVE** | 16.00 → MAGREZA_MODERADA
-- **16.99 → MAGREZA_MODERADA** | 17.00 → MAGREZA_LEVE
-- **18.49 → MAGREZA_LEVE** | 18.50 → SAUDAVEL
-- **24.99 → SAUDAVEL** | 25.00 → SOBREPESO
-- **29.99 → SOBREPESO** | 30.00 → OBESIDADE_GRAU_I
-- **34.99 → OBESIDADE_GRAU_I** | 35.00 → OBESIDADE_GRAU_II
-- **39.99 → OBESIDADE_GRAU_II** | 40.00 → OBESIDADE_GRAU_III
+| Limite Inferior | Categoria Inferior       | Limite Superior  | Categoria Superior        |
+|-----------------|--------------------------|------------------|---------------------------|
+| 15.99           | MAGREZA_GRAVE            | 16.00            | MAGREZA_MODERADA          |
+| 16.99           | MAGREZA_MODERADA         | 17.00            | MAGREZA_LEVE              |
+| 18.49           | MAGREZA_LEVE             | 18.50            | SAUDÁVEL                  |
+| 24.99           | SAUDÁVEL                 | 25.00            | SOBREPESO                 |
+| 29.99           | SOBREPESO                | 30.00            | OBESIDADE_GRAU_I          |
+| 34.99           | OBESIDADE_GRAU_I         | 35.00            | OBESIDADE_GRAU_II         |
+| 39.99           | OBESIDADE_GRAU_II        | 40.00            | OBESIDADE_GRAU_III        |
+
 
 ## 4. Validações de Entrada
 
 ### 4.1 Peso
 - **Intervalo válido:** `0 < peso ≤ 500 kg`
 - **Valores inválidos:**
-  - peso ≤ 0
-  - peso > 500
+  - `peso ≤ 0`
+  - `peso > 500`
   - valores não numéricos
 
 ### 4.2 Altura
 - **Intervalo válido:** `0 < altura ≤ 3.5 m`
 - **Valores inválidos:**
-  - altura ≤ 0 (evita divisão por zero)
-  - altura > 3.5
+  - `altura ≤ 0` (evita divisão por zero)
+  - `altura > 3.5`
   - valores não numéricos
 
 ### 4.3 Tratamento de Erros
@@ -232,7 +235,14 @@ GET /api/imc?peso=80&altura=0
 
 ## 1. Estrutura do Projeto
 
-A aplicação foi estruturada com foco em **modularidade, encapsulamento, legibilidade e isolamento de responsabilidades**, seguindo princípios de engenharia de software consagrados: **SRP, SOLID, DRY, CQS, OCP, KISS e YAGNI**.
+A aplicação foi estruturada com foco em **modularidade, encapsulamento, legibilidade e isolamento de responsabilidades**, seguindo princípios de engenharia de software:
+- **SRP**
+- **SOLID**
+- **DRY**
+- **CQS**
+- **OCP**
+- **KISS**
+- **YAGNI**
 
 ### 1.1 Estrutura Base (Modelo MVC + Ports & Adapters)
 
@@ -240,23 +250,23 @@ A aplicação foi estruturada com foco em **modularidade, encapsulamento, legibi
 src/
  └─ main/
      ├─ java/com/saude/imc/
-     │   ├─ AplicacaoIMC.java          # Classe principal Spring Boot
+     │   ├─ AplicacaoIMC.java                        # Classe principal Spring Boot
      │   ├─ controller/
-     │   │   └─ ControladorIMC.java    # REST Controller (entrada HTTP)
+     │   │   └─ ControladorIMC.java                  # REST Controller (entrada HTTP)
      │   ├─ service/
-     │   │   ├─ ServicoIMC.java        # Lógica de negócio
+     │   │   ├─ ServicoIMC.java                      # Lógica de negócio
      │   │   ├─ ports/
-     │   │   │   └─ ArmazenamentoResultado.java  # Interface (Port)
+     │   │   │   └─ ArmazenamentoResultado.java      # Interface (Port)
      │   │   └─ adapters/
-     │   │       └─ ArmazenamentoLog.java        # Implementação (Adapter)
+     │   │       └─ ArmazenamentoLog.java            # Implementação (Adapter)
      │   ├─ domain/
-     │   │   └─ CategoriaIMC.java      # Enum de categorias OMS
+     │   │   └─ CategoriaIMC.java                    # Enum de categorias OMS
      │   ├─ dto/
-     │   │   └─ RespostaIMC.java       # DTO de resposta
+     │   │   └─ RespostaIMC.java                     # DTO de resposta
      │   └─ util/
-     │       ├─ CalculadoraIMC.java    # Cálculo e categorização
-     │       ├─ ValidadorEntrada.java  # Validações
-     │       └─ Arredondador.java      # Arredondamento
+     │       ├─ CalculadoraIMC.java                  # Cálculo e categorização
+     │       ├─ ValidadorEntrada.java                # Validações
+     │       └─ Arredondador.java                    # Arredondamento
      └─ resources/
          ├─ application.properties
          └─ logback-test.xml
@@ -332,7 +342,7 @@ src/
 **DRY (Don't Repeat Yourself)**
 - Lógica de arredondamento centralizada em `Arredondador`
 - Validações centralizadas em `ValidadorEntrada`
-- Constantes extraídas (PESO_MAX = 500.0, ALTURA_MAX = 3.5)
+- Constantes extraídas (`PESO_MAX = 500.0`, `ALTURA_MAX = 3.5`)
 
 **CQS (Command-Query Separation)**
 - Métodos de consulta não alteram estado
@@ -372,7 +382,7 @@ src/
 
 **Logging Estruturado**
 - SLF4J com Logback
-- Níveis apropriados (INFO, DEBUG, ERROR)
+- Níveis apropriados (`INFO`, `DEBUG`, `ERROR`)
 - Mensagens contextualizadas
 
 ---
@@ -407,12 +417,12 @@ Durante o desenvolvimento do sistema de IMC, apliquei os seguintes tipos de test
 
 Executei o sistema testando diversos cenários manualmente antes da automação:
 
-| Categoria | Cenários Testados | Resultado |
-|-----------|-------------------|-----------|
-| **Valores normais** | peso: 50-100kg, altura: 1.5-2.0m | Cálculo correto, categorização adequada |
-| **Valores extremos** | peso: 0.1kg e 500kg, altura: 0.5m e 3.5m | Sistema aceita e calcula corretamente |
-| **Valores inválidos** | peso/altura ≤0, valores acima dos limites | Exceção com mensagem clara |
-| **Fronteiras** | IMC: 18.49→18.50, 24.99→25.00, 29.99→30.00 | Categorização precisa nas transições |
+| Categoria               | Cenários Testados                                      | Resultado                               |
+|-------------------------|--------------------------------------------------------|-----------------------------------------|
+| **Valores normais**     | peso: 50-100kg, altura: 1.5-2.0m                       | Cálculo correto, categorização adequada |
+| **Valores extremos**    | peso: 0.1kg e 500kg, altura: 0.5m e 3.5m               | Sistema aceita e calcula corretamente   |
+| **Valores inválidos**   | `peso/altura ≤ 0`, valores acima dos limites           | Exceção com mensagem clara              |
+| **Fronteiras**          | IMC: `18.49 → 18.50`, `24.99 → 25.00`, `29.99 → 30.00` | Categorização precisa nas transições    |
 
 ### 2.2. Avaliação de Usabilidade
 
@@ -431,13 +441,13 @@ Executei o sistema testando diversos cenários manualmente antes da automação:
 
 Durante os testes exploratórios em um código legado fictício, identifiquei os seguintes problemas que motivaram a refatoração completa:
 
-| ID | Tipo | Descrição | Severidade | Prioridade | Solução |
-|----|------|-----------|------------|------------|---------|
-| **P1** | Funcional | Divisão por zero quando altura = 0 | Crítica | Alta | Validação preventiva com `ValidadorEntrada.validarAltura()` |
-| **P2** | Funcional | Aceita valores negativos de peso/altura | Crítica | Alta | Validação de intervalo com exceções específicas |
-| **P3** | Usabilidade | Mensagens de erro genéricas | Média | Média | Mensagens detalhadas com valores e limites |
-| **P4** | Funcional | Não valida limite superior (peso > 500kg) | Alta | Alta | Validação completa `0 < peso ≤ 500` |
-| **P5** | Design | Lógica de cálculo misturada com validação | Baixa | Média | Separação em classes aplicando SRP |
+| ID     | Tipo        | Descrição                                 | Severidade  | Prioridade  | Solução                                                     |
+|--------|-------------|-------------------------------------------|-------------|-------------|-------------------------------------------------------------|
+| **P1** | Funcional   | Divisão por zero quando (`altura=0`)      | Crítica     | Alta        | Validação preventiva com `ValidadorEntrada.validarAltura()` |
+| **P2** | Funcional   | Aceita valores negativos de peso/altura   | Crítica     | Alta        | Validação de intervalo com exceções específicas             |
+| **P3** | Usabilidade | Mensagens de erro genéricas               | Média       | Média       | Mensagens detalhadas com valores e limites                  |
+| **P4** | Funcional   | Não valida limite superior (`peso>500kg`) | Alta        | Alta        | Validação completa `0 < peso ≤ 500`                         |
+| **P5** | Design      | Lógica de cálculo misturada com validação | Baixa       | Média       | Separação em classes aplicando SRP                          |
 
 **Resultado:** Sistema refatorado com arquitetura limpa, eliminando todos os problemas identificados.
 
@@ -452,19 +462,19 @@ Durante os testes exploratórios em um código legado fictício, identifiquei os
 - **Altura:** Número decimal positivo, intervalo `0 < altura ≤ 3.5 m`
 
 **Saídas:**
-- **IMC:** Número decimal com 2 casas decimais, arredondamento HALF_UP
+- **IMC:** Número decimal com 2 casas decimais, arredondamento **HALF_UP**
 - **Categoria:** Enum conforme classificação OMS
 
 **Fórmula:** `IMC = peso(kg) / altura(m)²`
 
 ### 4.2. Categorização Segundo Padrões OMS
 
-| Faixa de IMC | Categoria | Risco |
-|--------------|-----------|-------|
-| IMC < 18.5 | ABAIXO_DO_PESO | Aumentado |
-| 18.5 ≤ IMC < 25.0 | NORMAL | Normal |
-| 25.0 ≤ IMC < 30.0 | SOBREPESO | Levemente aumentado |
-| IMC ≥ 30.0 | OBESIDADE | Moderado a severo |
+| Faixa de IMC        | Categoria      | Risco               |
+|---------------------|----------------|---------------------|
+| `IMC < 18.5`        | ABAIXO_DO_PESO | Aumentado           |
+| `18.5 ≤ IMC < 25.0` | NORMAL         | Normal              |
+| `25.0 ≤ IMC < 30.0` | SOBREPESO      | Levemente aumentado |
+| `IMC ≥ 30.0`        | OBESIDADE      | Moderado a severo   |
 
 ### 4.3. Tratamento de Erros
 
@@ -504,32 +514,32 @@ Identifiquei as seguintes partições para peso e altura:
 
 **Fronteiras de Validação de Peso:**
 
-| Valor | Status | Teste |
-|-------|--------|-------|
-| 0.0 kg | Inválido | `rejeita_peso_zero` |
-| 0.01 kg | Válido | `aceita_peso_minimo` |
-| 500.0 kg | Válido | `aceita_peso_maximo` |
+| Valor     | Status   | Teste                       |
+|-----------|----------|-----------------------------|
+| 0.0 kg    | Inválido | `rejeita_peso_zero`         |
+| 0.01 kg   | Válido   | `aceita_peso_minimo`        |
+| 500.0 kg  | Válido   | `aceita_peso_maximo`        |
 | 500.01 kg | Inválido | `rejeita_peso_acima_limite` |
 
 **Fronteiras de Validação de Altura:**
 
-| Valor | Status | Teste |
-|-------|--------|-------|
-| 0.0 m | Inválido | `rejeita_altura_zero` |
-| 0.01 m | Válido | `aceita_altura_minima` |
-| 3.5 m | Válido | `aceita_altura_maxima` |
+| Valor  | Status   | Teste                         |
+|--------|----------|-------------------------------|
+| 0.0 m  | Inválido | `rejeita_altura_zero`         |
+| 0.01 m | Válido   | `aceita_altura_minima`        |
+| 3.5 m  | Válido   | `aceita_altura_maxima`        |
 | 3.51 m | Inválido | `rejeita_altura_acima_limite` |
 
 **Fronteiras de Categorização:**
 
-| IMC | Categoria | Teste |
-|-----|-----------|-------|
-| 18.49 | ABAIXO_DO_PESO | `fronteira_abaixo_normal` |
-| 18.50 | NORMAL | `fronteira_abaixo_normal` |
-| 24.99 | NORMAL | `fronteira_normal_sobrepeso` |
-| 25.00 | SOBREPESO | `fronteira_normal_sobrepeso` |
-| 29.99 | SOBREPESO | `fronteira_sobrepeso_obesidade` |
-| 30.00 | OBESIDADE | `fronteira_sobrepeso_obesidade` |
+| IMC   | Categoria      | Teste                           |
+|-------|----------------|---------------------------------|
+| 18.49 | ABAIXO_DO_PESO | `fronteira_abaixo_normal`       |
+| 18.50 | NORMAL         | `fronteira_abaixo_normal`       |
+| 24.99 | NORMAL         | `fronteira_normal_sobrepeso`    |
+| 25.00 | SOBREPESO      | `fronteira_normal_sobrepeso`    |
+| 29.99 | SOBREPESO      | `fronteira_sobrepeso_obesidade` |
+| 30.00 | OBESIDADE      | `fronteira_sobrepeso_obesidade` |
 
 **Total:** 9 fronteiras testadas (6 validação + 3 categorização)
 
@@ -576,22 +586,22 @@ O relatório acima mostra a análise completa de cobertura gerada pelo JaCoCo. D
 
 **Métricas Gerais:**
 
-| Métrica | Cobertura | Observação |
-|---------|-----------|------------|
-| **Instructions** | 51% (289/566) | Adequado para escopo |
-| **Branches** | **46.6% (28/60)** | Principais decisões cobertas |
-| **Lines** | 52% (66/126) | Bom percentual |
-| **Methods** | 32% (10/31) | Métodos críticos testados |
+| Métrica          | Cobertura       | Observação                   |
+|------------------|-----------------|------------------------------|
+| **Instructions** | 51% (289/566)   | Adequado para escopo         |
+| **Branches**     | `46.6% (28/60)` | Principais decisões cobertas |
+| **Lines**        | 52% (66/126)    | Bom percentual               |
+| **Methods**      | 32% (10/31)     | Métodos críticos testados    |
 
 **Cobertura por Pacote:**
 
-| Pacote/Classe | Instructions | Status |
-|---------------|--------------|--------|
-| `com.saude.imc.util` | **80%** | ✅ Excelente (classes críticas) |
-| `com.saude.imc.service` | **100%** | ✅ Perfeito |
-| `com.saude.imc.domain` | **92%** | ✅ Perfeito |
-| `com.saude.imc.controller` | 0% | ⚠️ Testes de integração (fora do escopo) |
-| `com.saude.imc` (Main) | 0% | ⚠️ Classe bootstrap Spring Boot |
+| Pacote/Classe              | Instructions | Status                                   |
+|----------------------------|--------------|------------------------------------------|
+| `com.saude.imc.util`       | `80%`        | ✅ Excelente (classes críticas)           |
+| `com.saude.imc.service`    | `100%`       | ✅ Perfeito                               |
+| `com.saude.imc.domain`     | `92%`        | ✅ Perfeito                               |
+| `com.saude.imc.controller` | 0%           | ⚠️ Testes de integração (fora do escopo) |
+| `com.saude.imc` (Main)     | 0%           | ⚠️ Classe bootstrap Spring Boot          |
 
 ### 6.3. Por Que 51% é Adequado?
 
@@ -600,15 +610,15 @@ A cobertura de 51% reflete a composição do projeto:
 - **Classes de infraestrutura (37% do projeto):** 0% de cobertura (justificado)
 
 As classes com 0% são:
-1. **AplicacaoIMC:** Classe `main` do Spring Boot - sem lógica de negócio
-2. **ControladorIMC:** Requer testes de integração (`@WebMvcTest`)
-3. **ArmazenamentoLog:** Sempre mockado nos testes
+1. **`AplicacaoIMC`:** Classe `main` do Spring Boot - sem lógica de negócio
+2. **`ControladorIMC`:** Requer testes de integração (`@WebMvcTest`)
+3. **`ArmazenamentoLog`:** Sempre _"mockado"_ nos testes
 
-**Meta ≥80% nas classes críticas foi ATINGIDA** (80-100%).
+**Meta `≥80%` nas classes críticas foi ATINGIDA** (80-100%).
 
 ### 6.4. Sugestões para Aumentar Cobertura
 
-Para elevar a cobertura geral de 51% para ~80%, sugiro:
+Para elevar a cobertura geral de `51% para ~80%`, sugiro:
 
 1. **Testes de Integração do Controller:**
    - Usar `@WebMvcTest` para testar endpoints HTTP
@@ -639,7 +649,7 @@ void calcula_imc_80kg_180m() {
     assertThat(imc).isEqualTo(24.69);
 }
 ```
-- Testa **1 caso** (peso=80, altura=1.80)
+- Testa **1 caso** (`peso=80`, `altura=1.80`)
 - Verifica resultado exato
 - Casos escolhidos manualmente
 
@@ -653,7 +663,7 @@ void imc_nunca_negativo(@ForAll("pesosValidos") double peso,
 }
 ```
 - Testa **1000 casos gerados automaticamente**
-- Verifica propriedade matemática (IMC ≥ 0)
+- Verifica propriedade matemática (`IMC ≥ 0`)
 - Framework escolhe os valores
 
 ### 1.2. Vantagens
@@ -664,9 +674,11 @@ void imc_nunca_negativo(@ForAll("pesosValidos") double peso,
 
 ### 1.3. Exemplo Prático no IMC
 
-**Propriedade testada:** "Para quaisquer valores válidos de peso e altura, o IMC calculado nunca pode ser negativo."
+**Propriedade testada:** `"Para quaisquer valores válidos de peso e altura, o IMC calculado nunca pode ser negativo."`
 
-Esta propriedade captura a essência matemática do cálculo - a divisão de números positivos sempre resulta em número positivo. O Jqwik testou 1000 combinações e todas passaram.
+Esta propriedade captura a essência matemática do cálculo - a divisão de números positivos sempre resulta em número positivo. 
+
+✅ O Jqwik testou 1000 combinações e todas passaram.
 
 ---
 
@@ -674,7 +686,7 @@ Esta propriedade captura a essência matemática do cálculo - a divisão de nú
 
 ### 2.1. Propriedade Fundamental
 
-Implementei a propriedade "IMC nunca negativo":
+Implementei a propriedade `"IMC nunca negativo"`:
 
 ```java
 @Property
@@ -762,7 +774,7 @@ Durante o desenvolvimento, o Jqwik encontrou 3 contraexemplos importantes que re
 
 ### 4.1. Contraexemplo 1: Monotonicidade
 
-**Propriedade:** "Para altura fixa, se peso₂ > peso₁, então IMC₂ > IMC₁"
+**Propriedade:** "Para altura fixa, se `peso₂ > peso₁`, então `IMC₂ > IMC₁`"
 
 **Contraexemplo encontrado:**
 ```
@@ -779,7 +791,7 @@ Assume.that(p2 - p1 >= 1.0); // Diferença mínima de 1kg
 
 ### 4.2. Contraexemplo 2: Antimonotonicidade
 
-**Propriedade:** "Para peso fixo, se altura₂ > altura₁, então IMC₂ < IMC₁"
+**Propriedade:** "Para peso fixo, se `altura₂ > altura₁`, então `IMC₂ < IMC₁`"
 
 **Contraexemplo:**
 ```
@@ -797,7 +809,7 @@ Assume.that(a2 - a1 >= 0.15);  // Diferença mínima de altura
 
 ### 4.3. Contraexemplo 3: Arredondamento com Locale
 
-**Propriedade:** "IMC sempre possui exatamente 2 casas decimais"
+**Propriedade:** `"IMC sempre possui exatamente 2 casas decimais"`
 
 **Contraexemplo:**
 ```
@@ -927,15 +939,15 @@ void rejeita_peso_invalido() {
 
 Implementei 7 propriedades matemáticas usando Jqwik:
 
-| # | Propriedade | Tries | Checks | Status |
-|---|-------------|-------|--------|--------|
-| 1 | IMC nunca negativo | 1000 | 1000 | ✅ |
-| 2 | Monotonicidade no peso | 1000 | 424 | ✅ |
-| 3 | Antimonotonicidade na altura | 1000 | 158 | ✅ |
-| 4 | Consistência de categorização | 1000 | 1000 | ✅ |
-| 5 | Arredondamento 2 casas | 1000 | 1000 | ✅ |
-| 6 | Proporcionalidade (IMC dobra com peso dobrado) | 1000 | 321 | ✅ |
-| 7 | Robustez em valores extremos | 9 | 9 | ✅ |
+| # | Propriedade                                    | Tries | Checks | Status |
+|---|------------------------------------------------|-------|--------|--------|
+| 1 | IMC nunca negativo                             | 1000  | 1000   | ✅      |
+| 2 | Monotonicidade no peso                         | 1000  | 424    | ✅      |
+| 3 | Antimonotonicidade na altura                   | 1000  | 158    | ✅      |
+| 4 | Consistência de categorização                  | 1000  | 1000   | ✅      |
+| 5 | Arredondamento 2 casas                         | 1000  | 1000   | ✅      |
+| 6 | Proporcionalidade (IMC dobra com peso dobrado) | 1000  | 321    | ✅      |
+| 7 | Robustez em valores extremos                   | 9     | 9      | ✅      |
 
 **Total:** 5009 tries, 3912 checks válidos, 0 failures
 
@@ -971,15 +983,15 @@ Esta propriedade testou 1000 combinações aleatórias e verificou que todas for
 
 ## Métricas do Projeto
 
-| Métrica | Valor |
-|---------|-------|
-| Testes Executados | 69 |
-| Failures | 0 (100% sucesso) |
-| Cobertura Geral | 51% |
-| Cobertura Classes Críticas | 80-100% ✅ |
-| Branches | 46.6% (28/60) |
-| Linhas de Código (produção) | ~500 LOC |
-| Linhas de Código (testes) | ~800 LOC |
+| Métrica                     | Valor            |
+|-----------------------------|------------------|
+| Testes Executados           | 69               |
+| Failures                    | 0 (100% sucesso) |
+| Cobertura Geral             | 51%              |
+| Cobertura Classes Críticas  | 80-100% ✅        |
+| Branches                    | 46.6% (28/60)    |
+| Linhas de Código (produção) | ~500 LOC         |
+| Linhas de Código (testes)   | ~800 LOC         |
 
 ## Conformidade com Rubricas
 
@@ -1004,34 +1016,36 @@ Esta propriedade testou 1000 combinações aleatórias e verificou que todas for
 **Arquitetura:** MVC + Ports & Adapters
 
 **Princípios aplicados:**
-- SRP: Classes com responsabilidade única
-- OCP: Extensível via novos adapters
-- DIP: Dependência de abstrações
-- DRY: Lógica centralizada sem duplicação
-- Clean Code: Código legível com JavaDoc
+- **SRP:** Classes com responsabilidade única
+- **OCP:** Extensível via novos adapters
+- **DIP:** Dependência de abstrações
+- **DRY:** Lógica centralizada sem duplicação
+- **Clean Code:** Código legível com JavaDoc
 
 ## Tecnologias Utilizadas
 
-| Tecnologia | Versão | Propósito |
-|------------|--------|-----------|
-| Java | 21 (LTS) | Linguagem de programação |
-| Spring Boot | 3.3.4 | Framework de aplicação |
-| Maven | 4.0.0 | Gerenciamento de dependências |
-| JUnit | 5.10.0 | Framework de testes unitários |
-| Jqwik | 1.7.2 | Property-Based Testing |
-| Mockito | 5.12.0 | Framework de mocks |
-| AssertJ | 3.26.3 | Asserções fluentes |
-| JaCoCo | 0.8.10 | Análise de cobertura |
-| Lombok | 1.18.30 | Redução de boilerplate |
-| SLF4J + Logback | 2.0.9 | Logging |
+| Tecnologia      | Versão   | Propósito                     |
+|-----------------|----------|-------------------------------|
+| Java            | 21 (LTS) | Linguagem de programação      |
+| Spring Boot     | 3.3.4    | Framework de aplicação        |
+| Maven           | 4.0.0    | Gerenciamento de dependências |
+| JUnit           | 5.10.0   | Framework de testes unitários |
+| Jqwik           | 1.7.2    | Property-Based Testing        |
+| Mockito         | 5.12.0   | Framework de mocks            |
+| AssertJ         | 3.26.3   | Asserções fluentes            |
+| JaCoCo          | 0.8.10   | Análise de cobertura          |
+| Lombok          | 1.18.30  | Redução de boilerplate        |
+| SLF4J + Logback | 2.0.9    | Logging                       |
 
 ---
 
 # DECLARAÇÃO DE USO DE IA
 
-Este trabalho utilizou ferramentas de IA (Claude Code / Claude 3.5 Sonnet, da Anthropic) como recurso auxiliar para sugestões de estruturação de documentação, exemplos de código e identificação de edge cases. Todo o conteúdo foi revisado, validado tecnicamente e adaptado ao contexto do projeto pelo autor. Os 69 testes foram executados com 100% de sucesso, demonstrando correção técnica do trabalho desenvolvido.
+Este trabalho utilizou ferramentas de IA (Claude Code / Claude 3.5 Sonnet, da Anthropic) como recurso auxiliar para sugestões de estruturação de documentação, exemplos de código e identificação de edge cases. Todo o conteúdo foi revisado, validado tecnicamente e adaptado ao contexto do projeto pelo autor. 
 
-André Luis Becker assume total responsabilidade pelo conteúdo apresentado, conforme diretrizes acadêmicas do Instituto Infnet.
+✅ Os 69 testes foram executados com 100% de sucesso, demonstrando correção técnica do trabalho desenvolvido.
+
+> <span style="color: orange;">⚠️ Atenção:</span> O aluno assume a responsabilidade pelo conteúdo apresentado, conforme diretrizes acadêmicas do corpo docente da instituição de ensino.
 
 ---
 
